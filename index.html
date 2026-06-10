@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>12B – World Cup 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --dark: #0a0a1a;
+      --blue-light: #f0f2f5;
+      --blue-mid: #1c4f8a;
+      --gold: #f5c518;
+    }
+    body { font-family: 'Be Vietnam Pro', sans-serif; background: var(--dark); color: #fff; overflow-x: hidden; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,10,26,0.96); backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(245,197,24,0.2);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 5%;
+    }
+    .logo img { height: 44px; width: auto; display: block; }
+    .nav-links { display: flex; gap: 28px; list-style: none; font-size: 0.92rem; font-weight: 700; }
+    .nav-links a { color: #ccc; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--gold); }
+    .btn-nav {
+      background: linear-gradient(135deg, #d32f2f, #b71c1c);
+      color: #fff; padding: 10px 24px; border-radius: 30px;
+      font-weight: 700; font-size: 0.9rem;
+      box-shadow: 0 4px 15px rgba(211,47,47,0.4);
+    }
+
+    /* ── CTA BUTTON (shared) ── */
+    .btn-cta {
+      display: inline-block;
+      background: linear-gradient(135deg, #d32f2f, #b71c1c);
+      color: #fff; padding: 13px 36px; border-radius: 30px;
+      font-weight: 800; font-size: 1rem; text-decoration: none;
+      box-shadow: 0 4px 18px rgba(211,47,47,0.45);
+      transition: transform 0.18s, box-shadow 0.18s;
+      letter-spacing: 0.02em;
+    }
+    .btn-cta:hover { transform: translateY(-2px); box-shadow: 0 7px 24px rgba(211,47,47,0.55); }
+    .section-cta { text-align: center; padding: 24px 0 8px; }
+
+    /* ── HERO ── */
+    .hero { width: 100%; display: block; }
+    .hero img { width: 100%; max-height: 500px; object-fit: cover; display: block; }
+
+    /* ── GROUPS CAROUSEL ── */
+    .groups-section { background: var(--blue-light); padding: 28px 0 24px; }
+    .groups-section-header { padding: 0 5% 18px; display: flex; align-items: center; justify-content: space-between; }
+    .groups-section-header h2 { font-size: 1.3rem; font-weight: 900; color: #111; }
+    .groups-carousel-wrap { position: relative; }
+    .groups-track {
+      display: flex; gap: 14px;
+      padding: 4px 5% 12px;
+      overflow-x: auto; scroll-behavior: smooth; scrollbar-width: none;
+    }
+    .groups-track::-webkit-scrollbar { display: none; }
+    .group-card {
+      flex: 0 0 170px;
+      background: #fff; border-radius: 12px;
+      padding: 16px 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.09);
+      border-top: 4px solid #1c4f8a;
+    }
+    .group-card h3 { font-size: 0.95rem; font-weight: 900; color: #1c4f8a; margin-bottom: 10px; }
+    .group-team {
+      display: flex; align-items: center; gap: 7px;
+      padding: 5px 0; border-bottom: 1px solid #f0f0f0;
+      font-size: 0.82rem; font-weight: 600; color: #222;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .group-team:last-child { border-bottom: none; }
+    .group-team .tf { font-size: 1.1rem; flex-shrink: 0; }
+    .flag-badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 24px; height: 16px; border-radius: 3px;
+      font-size: 0.55rem; font-weight: 900; letter-spacing: 0.3px; flex-shrink: 0;
+    }
+    .flag-eng { background: #cf142b; color: #fff; }
+    .flag-sco { background: #003f80; color: #fff; }
+    .carousel-arrow {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(255,255,255,0.92); border: none;
+      width: 34px; height: 34px; border-radius: 50%;
+      font-size: 1.1rem; cursor: pointer; z-index: 10;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .carousel-arrow.prev { left: 10px; }
+    .carousel-arrow.next { right: 10px; }
+
+    /* ── GAME TYPES ── */
+    .game-types-section {
+      background: var(--blue-mid);
+      display: grid; grid-template-columns: 1fr 1fr;
+      min-height: 360px;
+    }
+    .gt-left {
+      padding: 52px 5% 52px 6%;
+      display: flex; flex-direction: column; justify-content: center; gap: 16px;
+      background-image: url('game.png');
+      background-size: cover; background-position: center;
+      position: relative;
+    }
+    .gt-left::before {
+      content: ''; position: absolute; inset: 0;
+      background: rgba(5, 15, 40, 0.68);
+    }
+    .gt-left > * { position: relative; z-index: 1; }
+    .gt-category { font-size: 0.78rem; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 2px; }
+    .gt-headline { font-size: 2rem; font-weight: 900; color: #fff; line-height: 1.25; }
+    .gt-excerpt { font-size: 0.92rem; color: rgba(255,255,255,0.75); line-height: 1.7; max-width: 420px; }
+    .gt-right {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+      padding: 28px; align-content: center;
+      background: var(--blue-mid);
+    }
+    .game-type-card {
+      position: relative; z-index: 1;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 14px; padding: 20px 14px;
+      text-align: center; cursor: pointer;
+      transition: transform 0.2s, background 0.2s;
+      display: block; text-decoration: none; color: inherit;
+    }
+    .game-type-card:hover { transform: translateY(-4px); background: rgba(255,255,255,0.2); }
+    .gt-icon { font-size: 2.4rem; margin-bottom: 8px; }
+    .gt-name { font-size: 0.82rem; font-weight: 800; color: #fff; line-height: 1.3; }
+    .gt-sub { font-size: 0.68rem; color: rgba(255,255,255,0.55); margin-top: 4px; }
+
+    /* ── SCHEDULE TABS ── */
+    .schedule-section { background: var(--blue-light); padding: 36px 0 40px; }
+    .schedule-section-header { padding: 0 5% 20px; }
+    .schedule-section-header h2 { font-size: 1.3rem; font-weight: 900; color: #111; }
+
+    .sched-tabs-wrap { position: relative; margin-bottom: 20px; }
+    .sched-tabs {
+      display: flex; gap: 8px;
+      padding: 4px 5% 8px;
+      overflow-x: auto; scroll-behavior: smooth; scrollbar-width: none;
+    }
+    .sched-tabs::-webkit-scrollbar { display: none; }
+    .sched-tab {
+      flex: 0 0 auto;
+      padding: 8px 16px; border-radius: 20px;
+      font-size: 0.8rem; font-weight: 700;
+      background: #fff; color: #555;
+      border: 1px solid #dde0e8; cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+    .sched-tab.active { background: #1c4f8a; color: #fff; border-color: #1c4f8a; }
+    .sched-tab:hover:not(.active) { background: #e8f0fb; }
+
+    .sched-content { padding: 0 5%; }
+    .sched-day-panel { display: none; }
+    .sched-day-panel.active { display: flex; flex-direction: column; gap: 8px; max-width: 680px; margin: 0 auto; }
+    .sched-row {
+      background: #fff; border-radius: 10px;
+      padding: 11px 14px;
+      display: flex; align-items: center;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.07);
+    }
+    .sched-team-l { flex: 1; font-size: 0.85rem; font-weight: 700; color: #111; text-align: left; }
+    .sched-mid { flex: 0 0 auto; text-align: center; padding: 0 12px; }
+    .sched-group {
+      font-size: 0.62rem; font-weight: 700;
+      background: #1c4f8a; color: #fff;
+      padding: 2px 7px; border-radius: 10px; white-space: nowrap;
+      display: block; margin-bottom: 4px;
+    }
+    .sched-time { font-size: 0.95rem; font-weight: 800; color: #1c4f8a; }
+    .sched-team-r { flex: 1; font-size: 0.85rem; font-weight: 700; color: #111; text-align: right; }
+    .sf { font-size: 1.05rem; }
+
+    /* ── RANKINGS ── */
+    .rankings-section { background: var(--blue-light); padding: 48px 5%; border-top: 1px solid #dde0e8; }
+    .rankings-section h2 { font-size: 1.3rem; font-weight: 900; color: #111; margin-bottom: 28px; }
+    .rankings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; max-width: 1100px; }
+    .ranking-block h3 { font-size: 0.95rem; font-weight: 800; color: #111; margin-bottom: 4px; }
+    .ranking-last-update { font-size: 0.72rem; color: #888; margin-bottom: 14px; }
+    .ranking-table-head {
+      display: grid; grid-template-columns: 56px 1fr 100px 76px;
+      font-size: 0.68rem; color: #888; font-weight: 700;
+      padding: 0 10px 8px; border-bottom: 1px solid #dde0e8;
+      text-transform: uppercase;
+    }
+    .ranking-row {
+      display: grid; grid-template-columns: 56px 1fr 100px 76px;
+      align-items: center; padding: 10px;
+      background: #fff; border-radius: 8px; margin-bottom: 6px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+    .rank-pos { font-size: 0.88rem; font-weight: 800; color: #111; display: flex; align-items: center; gap: 4px; }
+    .rank-arrow-up { color: #2e7d32; font-size: 0.75rem; }
+    .rank-arrow-down { color: #c62828; font-size: 0.75rem; }
+    .rank-team { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 700; color: #111; }
+    .rank-flag { font-size: 1.15rem; }
+    .rank-points { font-size: 0.84rem; color: #333; font-weight: 600; }
+    .rank-change-pos { font-size: 0.78rem; color: #2e7d32; font-weight: 600; }
+    .rank-change-neg { font-size: 0.78rem; color: #c62828; font-weight: 600; }
+
+    /* ── FOOTER ── */
+    footer { background: #050510; padding: 24px 5%; border-top: 1px solid rgba(255,255,255,0.07); text-align: center; }
+    footer img { height: 36px; width: auto; margin-bottom: 10px; display: inline-block; }
+    footer p { font-size: 0.78rem; color: rgba(255,255,255,0.3); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .game-types-section { grid-template-columns: 1fr; }
+      .gt-right { grid-template-columns: repeat(4, 1fr); padding: 20px 16px; gap: 8px; }
+      .rankings-grid { grid-template-columns: 1fr; }
+      .ranking-table-head, .ranking-row { grid-template-columns: 48px 1fr 88px 68px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo"><img src="image-Photoroom.png" alt="12B" /></div>
+  <ul class="nav-links">
+    <li><a href="#groups">Bảng Đấu</a></li>
+    <li><a href="#games">Trò Chơi</a></li>
+    <li><a href="#schedule">Lịch Thi Đấu</a></li>
+  </ul>
+  <a href="https://037go.tlndor.com/mq7wxzm8kj03" target="_blank" class="btn-nav">Đăng Ký Ngay →</a>
+</nav>
+
+<!-- HERO / KV -->
+<a href="https://037go.tlndor.com/mq7wxzm8kj03" target="_blank" class="hero">
+  <img src="KV.png" alt="World Cup 2026" />
+</a>
+
+<!-- ── GROUPS CAROUSEL ── -->
+<section class="groups-section" id="groups">
+  <div class="groups-section-header">
+    <h2>⚽ Bảng Đấu World Cup 2026</h2>
+  </div>
+  <div class="groups-carousel-wrap">
+    <button class="carousel-arrow prev" onclick="document.getElementById('groupsTrack').scrollBy({left:-200,behavior:'smooth'})">&#8249;</button>
+    <div class="groups-track" id="groupsTrack">
+
+      <div class="group-card">
+        <h3>Bảng A</h3>
+        <div class="group-team"><span class="tf">🇲🇽</span> Mexico</div>
+        <div class="group-team"><span class="tf">🇿🇦</span> Nam Phi</div>
+        <div class="group-team"><span class="tf">🇰🇷</span> Hàn Quốc</div>
+        <div class="group-team"><span class="tf">🇨🇿</span> Cộng Hòa Séc</div>
+      </div>
+
+      <div class="group-card">
+        <h3>Bảng B</h3>
+        <div class="group-team"><span class="tf">🇨🇦</span> Canada</div>
+        <div class="group-team"><span class="tf">🇧🇦</span> Bosnia và Herzegovina</div>
+        <div class="group-team"><span class="tf">🇶🇦</span> Qatar</div>
+        <div class="group-team"><span class="tf">🇨🇭</span> Thụy Sĩ</div>
+      </div>
+
+      <div class="group-card">
+        <h3>Bảng C</h3>
+        <div class="group-team"><span class="tf">🇧🇷</span> Brazil</div>
+        <div class="group-team"><span class="tf">🇲🇦</span> Ma Rốc</div>
+        <div class="group-team"><span class="tf">🇭🇹</span> Haiti</div>
+        <div class="group-team"><span class="flag-badge flag-sco">SCO</span> Scotland</div>
+      </div>
+
+      <div class="group-card">
+        <h3>Bảng D</h3>
+        <div class="group-team"><span class="tf">🇺🇸</span> Hoa Kỳ</div>
+        <div class="group-team"><span class="tf">🇵🇾</span> Paraguay</div>
+        <div class="group-team"><span class="tf">🇦🇺</span> Úc</div>
+        <div class="group-team"><span class="tf">🇹🇷</span> Thổ Nhĩ Kỳ</div>
+      </div>
+
+      <div class="group-card">
+        <h3>Bảng E</h3>
+        <div class="group-team"><span class="tf">🇩🇪</span> Đức</div>
+        <div class="group-team"><span class="tf">🇨🇼</span> Curaçao</div>
+        <div class="group-team"><span class="tf">🇨🇮</span> Bờ Biển Ngà</div>
+        <div class="group-team"><span class="tf">🇪🇨</span> Ecuador</div>
+      </div>
+
+      <div class="group-card">
+        <h3>Bảng F</h3>
+        <div class="group-team"><span class="tf">🇳🇱</span> Hà Lan</div>
+        <div class="group-team"><span class="tf">🇯🇵</span> Nhật Bản</div>
+        <div class="group-team"><span class="tf">🇹🇳</span> Tunisia</div>
+        <div class="group-team"><span class="tf">🇸🇪</span> Thụy Điển</div>
+      </div>
+
+      <div class="group-card">
+        <h3>Bảng G</h3>
+        <div class="group-team"><span class="tf">🇧🇪</span> Bỉ</div>
+        <div class="group-team"><span class="tf">🇪🇬</span> Ai Cập</div>
+        <div class="group-team"><span class="tf">🇮🇷</span> Iran</div>
+        <div class="group-team"><span class="tf">🇳🇿</span> New Zealand</div>
+      </div>
+
+      <div class="group-card">
+        <h3>Bảng H</h3>
+        <div class="group-team"><span class="tf">🇪🇸</span> Tây Ban Nha</div>
+        <div class="group-team"><span class="tf">🇨🇻</span> Cabo Verde</div>
+        <div class="group-team"><span class="tf">🇸🇦</span> Ả Rập Xê Út</div>
+        <div class="group-team"><span class="tf">🇺🇾</span> Uruguay</div>
+      </div>
+
+      <div class="group-card">
+        <h3>Bảng I</h3>
+        <div class="group-team"><span class="tf">🇫🇷</span> Pháp</div>
+        <div class="group-team"><span class="tf">🇸🇳</span> Senegal</div>
+        <div class="group-team"><span class="tf">🇮🇶</span> Iraq</div>
+        <div class="group-team"><span class="tf">🇳🇴</span> Na Uy</div>
+      </div>
+
+      <div class="group-card">
+        <h3>Bảng J</h3>
+        <div class="group-team"><span class="tf">🇦🇷</span> Argentina</div>
+        <div class="group-team"><span class="tf">🇩🇿</span> Algeria</div>
+        <div class="group-team"><span class="tf">🇦🇹</span> Áo</div>
+        <div class="group-team"><span class="tf">🇯🇴</span> Jordan</div>
+      </div>
+
+      <div class="group-card">
+        <h3>Bảng K</h3>
+        <div class="group-team"><span class="tf">🇵🇹</span> Bồ Đào Nha</div>
+        <div class="group-team"><span class="tf">🇨🇩</span> CH Dân Chủ Congo</div>
+        <div class="group-team"><span class="tf">🇺🇿</span> Uzbekistan</div>
+        <div class="group-team"><span class="tf">🇨🇴</span> Colombia</div>
+      </div>
+
+      <div class="group-card">
+        <h3>Bảng L</h3>
+        <div class="group-team"><span class="flag-badge flag-eng">ENG</span> Anh</div>
+        <div class="group-team"><span class="tf">🇭🇷</span> Croatia</div>
+        <div class="group-team"><span class="tf">🇬🇭</span> Ghana</div>
+        <div class="group-team"><span class="tf">🇵🇦</span> Panama</div>
+      </div>
+
+    </div>
+    <button class="carousel-arrow next" onclick="document.getElementById('groupsTrack').scrollBy({left:200,behavior:'smooth'})">&#8250;</button>
+  </div>
+  <div class="section-cta">
+    <a href="https://037go.tlndor.com/mq7wxzm8kj03" target="_blank" class="btn-cta">Tham Gia Dự Đoán World Cup →</a>
+  </div>
+</section>
+
+<!-- ── GAME TYPES ── -->
+<section class="game-types-section" id="games">
+  <div class="gt-left">
+    <div class="gt-category">FIFA World Cup 2026™</div>
+    <div class="gt-headline">Loại Trò Chơi</div>
+    <div class="gt-excerpt">Chọn loại trò chơi bạn yêu thích, cùng ưu đãi đặc biệt trong mùa World Cup 2026, tham gia vui chơi và săn giải thưởng mỗi ngày</div>
+    <a href="https://037go.tlndor.com/mq7wxzm8kj03" target="_blank" class="btn-cta" style="margin-top:20px;">Chơi Ngay →</a>
+  </div>
+  <div class="gt-right">
+    <a href="https://037go.tlndor.com/mq7wxzm8kj03" target="_blank" class="game-type-card">
+      <div class="gt-icon">⚽</div>
+      <div class="gt-name">Dự Đoán</div>
+      <div class="gt-sub">Match Prediction</div>
+    </a>
+    <a href="https://037go.tlndor.com/mq7wxzm8kj03" target="_blank" class="game-type-card">
+      <div class="gt-icon">🏆</div>
+      <div class="gt-name">Săn Cúp</div>
+      <div class="gt-sub">Trophy Hunt</div>
+    </a>
+    <a href="https://037go.tlndor.com/mq7wxzm8kj03" target="_blank" class="game-type-card">
+      <div class="gt-icon">💰</div>
+      <div class="gt-name">Thưởng Nạp</div>
+      <div class="gt-sub">Deposit Bonus</div>
+    </a>
+    <a href="https://037go.tlndor.com/mq7wxzm8kj03" target="_blank" class="game-type-card">
+      <div class="gt-icon">🎁</div>
+      <div class="gt-name">Hộp Quà Bí Ẩn</div>
+      <div class="gt-sub">Mystery Box</div>
+    </a>
+  </div>
+</section>
+
+<!-- ── SCHEDULE TABS ── -->
+<section class="schedule-section" id="schedule">
+  <div class="schedule-section-header">
+    <h2>📅 Lịch Thi Đấu World Cup 2026 (Giờ Việt Nam)</h2>
+  </div>
+
+  <div class="sched-tabs-wrap">
+    <div class="sched-tabs" id="schedTabs">
+      <button class="sched-tab active" onclick="showDay('d0612',this)">12/06</button>
+      <button class="sched-tab" onclick="showDay('d0613',this)">13/06</button>
+      <button class="sched-tab" onclick="showDay('d0614',this)">14/06</button>
+      <button class="sched-tab" onclick="showDay('d0615',this)">15/06</button>
+      <button class="sched-tab" onclick="showDay('d0616',this)">16/06</button>
+      <button class="sched-tab" onclick="showDay('d0617',this)">17/06</button>
+      <button class="sched-tab" onclick="showDay('d0618',this)">18/06</button>
+      <button class="sched-tab" onclick="showDay('d0619',this)">19/06</button>
+      <button class="sched-tab" onclick="showDay('d0620',this)">20/06</button>
+      <button class="sched-tab" onclick="showDay('d0621',this)">21/06</button>
+      <button class="sched-tab" onclick="showDay('d0622',this)">22/06</button>
+      <button class="sched-tab" onclick="showDay('d0623',this)">23/06</button>
+      <button class="sched-tab" onclick="showDay('d0624',this)">24/06</button>
+      <button class="sched-tab" onclick="showDay('d0625',this)">25/06</button>
+      <button class="sched-tab" onclick="showDay('d0626',this)">26/06</button>
+      <button class="sched-tab" onclick="showDay('d0627',this)">27/06</button>
+      <button class="sched-tab" onclick="showDay('d0628',this)">28/06</button>
+    </div>
+  </div>
+
+  <div class="sched-content">
+
+    <div class="sched-day-panel active" id="d0612">
+      <div class="sched-row"><div class="sched-team-l">🇲🇽 Mexico</div><div class="sched-mid"><span class="sched-group">A</span><div class="sched-time">02:00</div></div><div class="sched-team-r">Nam Phi 🇿🇦</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇰🇷 Hàn Quốc</div><div class="sched-mid"><span class="sched-group">A</span><div class="sched-time">09:00</div></div><div class="sched-team-r">Cộng Hòa Séc 🇨🇿</div></div>
+    </div>
+
+    <div class="sched-day-panel" id="d0613">
+      <div class="sched-row"><div class="sched-team-l">🇨🇦 Canada</div><div class="sched-mid"><span class="sched-group">B</span><div class="sched-time">02:00</div></div><div class="sched-team-r">Bosnia 🇧🇦</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇺🇸 Hoa Kỳ</div><div class="sched-mid"><span class="sched-group">D</span><div class="sched-time">08:00</div></div><div class="sched-team-r">Paraguay 🇵🇾</div></div>
+    </div>
+
+    <div class="sched-day-panel" id="d0614">
+      <div class="sched-row"><div class="sched-team-l">🇶🇦 Qatar</div><div class="sched-mid"><span class="sched-group">B</span><div class="sched-time">02:00</div></div><div class="sched-team-r">Thụy Sĩ 🇨🇭</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇧🇷 Brazil</div><div class="sched-mid"><span class="sched-group">C</span><div class="sched-time">05:00</div></div><div class="sched-team-r">Ma Rốc 🇲🇦</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇭🇹 Haiti</div><div class="sched-mid"><span class="sched-group">C</span><div class="sched-time">08:00</div></div><div class="sched-team-r">Scotland <span class="flag-badge flag-sco">SCO</span></div></div>
+      <div class="sched-row"><div class="sched-team-l">🇦🇺 Úc</div><div class="sched-mid"><span class="sched-group">D</span><div class="sched-time">11:00</div></div><div class="sched-team-r">Thổ Nhĩ Kỳ 🇹🇷</div></div>
+    </div>
+
+    <div class="sched-day-panel" id="d0615">
+      <div class="sched-row"><div class="sched-team-l">🇩🇪 Đức</div><div class="sched-mid"><span class="sched-group">E</span><div class="sched-time">00:00</div></div><div class="sched-team-r">Curaçao 🇨🇼</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇳🇱 Hà Lan</div><div class="sched-mid"><span class="sched-group">F</span><div class="sched-time">03:00</div></div><div class="sched-team-r">Nhật Bản 🇯🇵</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇨🇮 Bờ Biển Ngà</div><div class="sched-mid"><span class="sched-group">E</span><div class="sched-time">06:00</div></div><div class="sched-team-r">Ecuador 🇪🇨</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇸🇪 Thụy Điển</div><div class="sched-mid"><span class="sched-group">F</span><div class="sched-time">09:00</div></div><div class="sched-team-r">Tunisia 🇹🇳</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇪🇸 Tây Ban Nha</div><div class="sched-mid"><span class="sched-group">H</span><div class="sched-time">23:00</div></div><div class="sched-team-r">Cabo Verde 🇨🇻</div></div>
+    </div>
+
+    <div class="sched-day-panel" id="d0616">
+      <div class="sched-row"><div class="sched-team-l">🇧🇪 Bỉ</div><div class="sched-mid"><span class="sched-group">G</span><div class="sched-time">02:00</div></div><div class="sched-team-r">Ai Cập 🇪🇬</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇸🇦 Ả Rập Xê Út</div><div class="sched-mid"><span class="sched-group">H</span><div class="sched-time">05:00</div></div><div class="sched-team-r">Uruguay 🇺🇾</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇮🇷 Iran</div><div class="sched-mid"><span class="sched-group">G</span><div class="sched-time">08:00</div></div><div class="sched-team-r">New Zealand 🇳🇿</div></div>
+    </div>
+
+    <div class="sched-day-panel" id="d0617">
+      <div class="sched-row"><div class="sched-team-l">🇫🇷 Pháp</div><div class="sched-mid"><span class="sched-group">I</span><div class="sched-time">02:00</div></div><div class="sched-team-r">Senegal 🇸🇳</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇮🇶 Iraq</div><div class="sched-mid"><span class="sched-group">I</span><div class="sched-time">05:00</div></div><div class="sched-team-r">Na Uy 🇳🇴</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇦🇷 Argentina</div><div class="sched-mid"><span class="sched-group">J</span><div class="sched-time">08:00</div></div><div class="sched-team-r">Algeria 🇩🇿</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇦🇹 Áo</div><div class="sched-mid"><span class="sched-group">J</span><div class="sched-time">11:00</div></div><div class="sched-team-r">Jordan 🇯🇴</div></div>
+    </div>
+
+    <div class="sched-day-panel" id="d0618">
+      <div class="sched-row"><div class="sched-team-l">🇵🇹 Bồ Đào Nha</div><div class="sched-mid"><span class="sched-group">K</span><div class="sched-time">00:00</div></div><div class="sched-team-r">CH Dân Chủ Congo 🇨🇩</div></div>
+      <div class="sched-row"><div class="sched-team-l"><span class="flag-badge flag-eng">ENG</span> Anh</div><div class="sched-mid"><span class="sched-group">L</span><div class="sched-time">03:00</div></div><div class="sched-team-r">Croatia 🇭🇷</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇬🇭 Ghana</div><div class="sched-mid"><span class="sched-group">L</span><div class="sched-time">06:00</div></div><div class="sched-team-r">Panama 🇵🇦</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇺🇿 Uzbekistan</div><div class="sched-mid"><span class="sched-group">K</span><div class="sched-time">09:00</div></div><div class="sched-team-r">Colombia 🇨🇴</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇨🇿 Cộng Hòa Séc</div><div class="sched-mid"><span class="sched-group">A</span><div class="sched-time">23:00</div></div><div class="sched-team-r">Nam Phi 🇿🇦</div></div>
+    </div>
+
+    <div class="sched-day-panel" id="d0619">
+      <div class="sched-row"><div class="sched-team-l">🇨🇭 Thụy Sĩ</div><div class="sched-mid"><span class="sched-group">B</span><div class="sched-time">02:00</div></div><div class="sched-team-r">Bosnia 🇧🇦</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇨🇦 Canada</div><div class="sched-mid"><span class="sched-group">B</span><div class="sched-time">05:00</div></div><div class="sched-team-r">Qatar 🇶🇦</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇲🇽 Mexico</div><div class="sched-mid"><span class="sched-group">A</span><div class="sched-time">08:00</div></div><div class="sched-team-r">Hàn Quốc 🇰🇷</div></div>
+    </div>
+
+    <div class="sched-day-panel" id="d0620">
+      <div class="sched-row"><div class="sched-team-l">🇺🇸 Hoa Kỳ</div><div class="sched-mid"><span class="sched-group">D</span><div class="sched-time">02:00</div></div><div class="sched-team-r">Úc 🇦🇺</div></div>
+      <div class="sched-row"><div class="sched-team-l"><span class="flag-badge flag-sco">SCO</span> Scotland</div><div class="sched-mid"><span class="sched-group">C</span><div class="sched-time">05:00</div></div><div class="sched-team-r">Ma Rốc 🇲🇦</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇧🇷 Brazil</div><div class="sched-mid"><span class="sched-group">C</span><div class="sched-time">07:30</div></div><div class="sched-team-r">Haiti 🇭🇹</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇹🇷 Thổ Nhĩ Kỳ</div><div class="sched-mid"><span class="sched-group">D</span><div class="sched-time">10:00</div></div><div class="sched-team-r">Paraguay 🇵🇾</div></div>
+    </div>
+
+    <div class="sched-day-panel" id="d0621">
+      <div class="sched-row"><div class="sched-team-l">🇳🇱 Hà Lan</div><div class="sched-mid"><span class="sched-group">F</span><div class="sched-time">00:00</div></div><div class="sched-team-r">Thụy Điển 🇸🇪</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇩🇪 Đức</div><div class="sched-mid"><span class="sched-group">E</span><div class="sched-time">03:00</div></div><div class="sched-team-r">Bờ Biển Ngà 🇨🇮</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇪🇨 Ecuador</div><div class="sched-mid"><span class="sched-group">E</span><div class="sched-time">07:00</div></div><div class="sched-team-r">Curaçao 🇨🇼</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇹🇳 Tunisia</div><div class="sched-mid"><span class="sched-group">F</span><div class="sched-time">11:00</div></div><div class="sched-team-r">Nhật Bản 🇯🇵</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇪🇸 Tây Ban Nha</div><div class="sched-mid"><span class="sched-group">H</span><div class="sched-time">23:00</div></div><div class="sched-team-r">Ả Rập Xê Út 🇸🇦</div></div>
+    </div>
+
+    <div class="sched-day-panel" id="d0622">
+      <div class="sched-row"><div class="sched-team-l">🇧🇪 Bỉ</div><div class="sched-mid"><span class="sched-group">G</span><div class="sched-time">02:00</div></div><div class="sched-team-r">Iran 🇮🇷</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇺🇾 Uruguay</div><div class="sched-mid"><span class="sched-group">H</span><div class="sched-time">05:00</div></div><div class="sched-team-r">Cabo Verde 🇨🇻</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇳🇿 New Zealand</div><div class="sched-mid"><span class="sched-group">G</span><div class="sched-time">08:00</div></div><div class="sched-team-r">Ai Cập 🇪🇬</div></div>
+    </div>
+
+    <div class="sched-day-panel" id="d0623">
+      <div class="sched-row"><div class="sched-team-l">🇦🇷 Argentina</div><div class="sched-mid"><span class="sched-group">J</span><div class="sched-time">00:00</div></div><div class="sched-team-r">Áo 🇦🇹</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇫🇷 Pháp</div><div class="sched-mid"><span class="sched-group">I</span><div class="sched-time">04:00</div></div><div class="sched-team-r">Iraq 🇮🇶</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇳🇴 Na Uy</div><div class="sched-mid"><span class="sched-group">I</span><div class="sched-time">07:00</div></div><div class="sched-team-r">Senegal 🇸🇳</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇯🇴 Jordan</div><div class="sched-mid"><span class="sched-group">J</span><div class="sched-time">10:00</div></div><div class="sched-team-r">Algeria 🇩🇿</div></div>
+    </div>
+
+    <div class="sched-day-panel" id="d0624">
+      <div class="sched-row"><div class="sched-team-l">🇵🇹 Bồ Đào Nha</div><div class="sched-mid"><span class="sched-group">K</span><div class="sched-time">00:00</div></div><div class="sched-team-r">Uzbekistan 🇺🇿</div></div>
+      <div class="sched-row"><div class="sched-team-l"><span class="flag-badge flag-eng">ENG</span> Anh</div><div class="sched-mid"><span class="sched-group">L</span><div class="sched-time">03:00</div></div><div class="sched-team-r">Ghana 🇬🇭</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇵🇦 Panama</div><div class="sched-mid"><span class="sched-group">L</span><div class="sched-time">06:00</div></div><div class="sched-team-r">Croatia 🇭🇷</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇨🇴 Colombia</div><div class="sched-mid"><span class="sched-group">K</span><div class="sched-time">09:00</div></div><div class="sched-team-r">CH Dân Chủ Congo 🇨🇩</div></div>
+    </div>
+
+    <div class="sched-day-panel" id="d0625">
+      <div class="sched-row"><div class="sched-team-l">🇨🇭 Thụy Sĩ</div><div class="sched-mid"><span class="sched-group">B</span><div class="sched-time">02:00</div></div><div class="sched-team-r">Canada 🇨🇦</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇧🇦 Bosnia</div><div class="sched-mid"><span class="sched-group">B</span><div class="sched-time">02:00</div></div><div class="sched-team-r">Qatar 🇶🇦</div></div>
+      <div class="sched-row"><div class="sched-team-l"><span class="flag-badge flag-sco">SCO</span> Scotland</div><div class="sched-mid"><span class="sched-group">C</span><div class="sched-time">05:00</div></div><div class="sched-team-r">Brazil 🇧🇷</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇲🇦 Ma Rốc</div><div class="sched-mid"><span class="sched-group">C</span><div class="sched-time">05:00</div></div><div class="sched-team-r">Haiti 🇭🇹</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇨🇿 Cộng Hòa Séc</div><div class="sched-mid"><span class="sched-group">A</span><div class="sched-time">08:00</div></div><div class="sched-team-r">Mexico 🇲🇽</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇿🇦 Nam Phi</div><div class="sched-mid"><span class="sched-group">A</span><div class="sched-time">08:00</div></div><div class="sched-team-r">Hàn Quốc 🇰🇷</div></div>
+    </div>
+
+    <div class="sched-day-panel" id="d0626">
+      <div class="sched-row"><div class="sched-team-l">🇨🇼 Curaçao</div><div class="sched-mid"><span class="sched-group">E</span><div class="sched-time">03:00</div></div><div class="sched-team-r">Bờ Biển Ngà 🇨🇮</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇪🇨 Ecuador</div><div class="sched-mid"><span class="sched-group">E</span><div class="sched-time">03:00</div></div><div class="sched-team-r">Đức 🇩🇪</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇯🇵 Nhật Bản</div><div class="sched-mid"><span class="sched-group">F</span><div class="sched-time">06:00</div></div><div class="sched-team-r">Thụy Điển 🇸🇪</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇹🇳 Tunisia</div><div class="sched-mid"><span class="sched-group">F</span><div class="sched-time">06:00</div></div><div class="sched-team-r">Hà Lan 🇳🇱</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇹🇷 Thổ Nhĩ Kỳ</div><div class="sched-mid"><span class="sched-group">D</span><div class="sched-time">09:00</div></div><div class="sched-team-r">Hoa Kỳ 🇺🇸</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇵🇾 Paraguay</div><div class="sched-mid"><span class="sched-group">D</span><div class="sched-time">09:00</div></div><div class="sched-team-r">Úc 🇦🇺</div></div>
+    </div>
+
+    <div class="sched-day-panel" id="d0627">
+      <div class="sched-row"><div class="sched-team-l">🇳🇴 Na Uy</div><div class="sched-mid"><span class="sched-group">I</span><div class="sched-time">02:00</div></div><div class="sched-team-r">Pháp 🇫🇷</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇸🇳 Senegal</div><div class="sched-mid"><span class="sched-group">I</span><div class="sched-time">02:00</div></div><div class="sched-team-r">Iraq 🇮🇶</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇨🇻 Cabo Verde</div><div class="sched-mid"><span class="sched-group">H</span><div class="sched-time">07:00</div></div><div class="sched-team-r">Ả Rập Xê Út 🇸🇦</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇺🇾 Uruguay</div><div class="sched-mid"><span class="sched-group">H</span><div class="sched-time">07:00</div></div><div class="sched-team-r">Tây Ban Nha 🇪🇸</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇪🇬 Ai Cập</div><div class="sched-mid"><span class="sched-group">G</span><div class="sched-time">10:00</div></div><div class="sched-team-r">Iran 🇮🇷</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇳🇿 New Zealand</div><div class="sched-mid"><span class="sched-group">G</span><div class="sched-time">10:00</div></div><div class="sched-team-r">Bỉ 🇧🇪</div></div>
+    </div>
+
+    <div class="sched-day-panel" id="d0628">
+      <div class="sched-row"><div class="sched-team-l">🇵🇦 Panama</div><div class="sched-mid"><span class="sched-group">L</span><div class="sched-time">04:00</div></div><div class="sched-team-r">Anh <span class="flag-badge flag-eng">ENG</span></div></div>
+      <div class="sched-row"><div class="sched-team-l">🇭🇷 Croatia</div><div class="sched-mid"><span class="sched-group">L</span><div class="sched-time">04:00</div></div><div class="sched-team-r">Ghana 🇬🇭</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇨🇴 Colombia</div><div class="sched-mid"><span class="sched-group">K</span><div class="sched-time">06:30</div></div><div class="sched-team-r">Bồ Đào Nha 🇵🇹</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇨🇩 CH Dân Chủ Congo</div><div class="sched-mid"><span class="sched-group">K</span><div class="sched-time">06:30</div></div><div class="sched-team-r">Uzbekistan 🇺🇿</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇩🇿 Algeria</div><div class="sched-mid"><span class="sched-group">J</span><div class="sched-time">09:00</div></div><div class="sched-team-r">Áo 🇦🇹</div></div>
+      <div class="sched-row"><div class="sched-team-l">🇯🇴 Jordan</div><div class="sched-mid"><span class="sched-group">J</span><div class="sched-time">09:00</div></div><div class="sched-team-r">Argentina 🇦🇷</div></div>
+    </div>
+
+  </div>
+  <div class="section-cta" style="padding-top:28px;">
+    <a href="https://037go.tlndor.com/mq7wxzm8kj03" target="_blank" class="btn-cta">Dự Đoán Kết Quả →</a>
+  </div>
+</section>
+
+<!-- ── RANKINGS ── -->
+<section class="rankings-section" id="rankings">
+  <h2>Bảng Xếp Hạng FIFA Thế Giới</h2>
+  <div class="rankings-grid">
+
+    <div class="ranking-block">
+      <h3>🔴 LIVE: Xếp Hạng Nam</h3>
+      <div class="ranking-last-update">Cập nhật lần cuối: 1 tháng 4, 2026</div>
+      <div class="ranking-table-head">
+        <span>Hạng</span><span>Đội</span><span>Tổng Điểm</span><span>+/- Điểm</span>
+      </div>
+      <div class="ranking-row">
+        <div class="rank-pos"><span class="rank-arrow-up">▲</span> 1</div>
+        <div class="rank-team"><span class="rank-flag">🇦🇷</span> Argentina</div>
+        <div class="rank-points">1877.27</div>
+        <div class="rank-change-pos">+2.45</div>
+      </div>
+      <div class="ranking-row">
+        <div class="rank-pos">2</div>
+        <div class="rank-team"><span class="rank-flag">🇪🇸</span> Tây Ban Nha</div>
+        <div class="rank-points">1874.71</div>
+        <div class="rank-change-neg">-1.68</div>
+      </div>
+      <div class="ranking-row">
+        <div class="rank-pos"><span class="rank-arrow-down">▼</span> 3</div>
+        <div class="rank-team"><span class="rank-flag">🇫🇷</span> Pháp</div>
+        <div class="rank-points">1870.70</div>
+        <div class="rank-change-neg">-6.63</div>
+      </div>
+      <div class="ranking-row">
+        <div class="rank-pos">4</div>
+        <div class="rank-team"><span class="flag-badge flag-eng" style="font-size:0.6rem">ENG</span> Anh</div>
+        <div class="rank-points">1827.05</div>
+        <div class="rank-change-pos">+1.08</div>
+      </div>
+      <div class="ranking-row">
+        <div class="rank-pos">5</div>
+        <div class="rank-team"><span class="rank-flag">🇵🇹</span> Bồ Đào Nha</div>
+        <div class="rank-points">1766.18</div>
+        <div class="rank-change-pos">+2.34</div>
+      </div>
+    </div>
+
+    <div class="ranking-block">
+      <h3>🔴 LIVE: Xếp Hạng Nữ</h3>
+      <div class="ranking-last-update">Cập nhật lần cuối: 21 tháng 4, 2026</div>
+      <div class="ranking-table-head">
+        <span>Hạng</span><span>Đội</span><span>Tổng Điểm</span><span>+/- Điểm</span>
+      </div>
+      <div class="ranking-row">
+        <div class="rank-pos">1</div>
+        <div class="rank-team"><span class="rank-flag">🇪🇸</span> Tây Ban Nha</div>
+        <div class="rank-points">2105.36</div>
+        <div class="rank-change-pos">+22.28</div>
+      </div>
+      <div class="ranking-row">
+        <div class="rank-pos">2</div>
+        <div class="rank-team"><span class="rank-flag">🇺🇸</span> Hoa Kỳ</div>
+        <div class="rank-points">2057.92</div>
+        <div class="rank-change-pos">+3.26</div>
+      </div>
+      <div class="ranking-row">
+        <div class="rank-pos"><span class="rank-arrow-up">▲</span> 3</div>
+        <div class="rank-team"><span class="rank-flag">🇩🇪</span> Đức</div>
+        <div class="rank-points">2028.99</div>
+        <div class="rank-change-pos">+7.22</div>
+      </div>
+      <div class="ranking-row">
+        <div class="rank-pos"><span class="rank-arrow-down">▼</span> 4</div>
+        <div class="rank-team"><span class="flag-badge flag-eng" style="font-size:0.6rem">ENG</span> Anh</div>
+        <div class="rank-points">2027.13</div>
+        <div class="rank-change-neg">-11.6</div>
+      </div>
+      <div class="ranking-row">
+        <div class="rank-pos">5</div>
+        <div class="rank-team"><span class="rank-flag">🇯🇵</span> Nhật Bản</div>
+        <div class="rank-points">1998.83</div>
+        <div class="rank-change-neg">-12.44</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="section-cta" style="padding-top:28px;">
+    <a href="https://037go.tlndor.com/mq7wxzm8kj03" target="_blank" class="btn-cta">Đăng Ký Và Bắt Đầu Ngay →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="register">
+  <img src="image-Photoroom.png" alt="12B" />
+  <a href="https://037go.tlndor.com/mq7wxzm8kj03" target="_blank" class="btn-cta" style="margin:16px 0 8px;">Đăng Ký / Đăng Nhập →</a>
+  <p>© 2026 12B. All rights reserved.</p>
+</footer>
+
+<script>
+  function showDay(id, btn) {
+    document.querySelectorAll('.sched-day-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.sched-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+    btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  }
+</script>
+</body>
+</html>
